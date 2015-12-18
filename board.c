@@ -64,8 +64,27 @@ int new_move(int **map, int x, int y, Winner *winner){
 }
 
 void print_board(int **map){
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
+  puts("");
+  for (int y = -1; y < height; y++) {
+    for (int x = -1; x < width; x++) {
+      // legend of X (letters)
+      if (y == -1) {
+	// padding space
+	if (x == -1) {
+	  printf("    ");
+	  continue;
+	}
+
+	printf("%c ", 'A' + x);
+	continue;
+      }
+
+      // legend of Y (numbers)
+      if (x == -1) {
+	printf("%*d ", 3, y);
+	continue;
+      }
+
       switch (map[x][y]){
       case BLACK:
 	printf("%s", BLACK_STR); break;
@@ -75,8 +94,9 @@ void print_board(int **map){
 	printf("%s", EMPTY_STR); break;
       }
     }
-    printf("\n");
+    puts("");
   }
+  puts("");
 }
 
 
