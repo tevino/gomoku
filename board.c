@@ -187,6 +187,8 @@ int main (int argc, char *argv[]){
     // TODO: winner?
   }
 
+  map_free(map);
+
   fclose(b_f);
   fclose(w_f);
   kill(w_pid, 9);

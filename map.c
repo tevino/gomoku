@@ -37,7 +37,7 @@ int map_set(Map *map, int x, int y, Player p) {
 }
 
 
-void free_map(Map *map){
+void map_free(Map *map){
   for (int x = 0; x < map->width; x++){
     free(map->m[x]);
   }
