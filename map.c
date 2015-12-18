@@ -2,7 +2,7 @@
 #include "map.h"
 
 // create a new map with every point as NOBODY.
-Map *init_map(int width, int height){
+Map *map_create(int width, int height){
   int **m = calloc(width, sizeof(int *));
   for (int i = 0; i < width; i++) {
     m[i] = calloc(height, sizeof(int));
@@ -37,7 +37,7 @@ int map_set(Map *map, int x, int y, Player p) {
 }
 
 
-void free_map(Map *map){
+void map_free(Map *map){
   for (int x = 0; x < map->width; x++){
     free(map->m[x]);
   }
