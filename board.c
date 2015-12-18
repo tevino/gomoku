@@ -115,8 +115,8 @@ int main (int argc, char *argv[]){
       return 1;
     }
   }
-  
-  Map *map = init_map(width, height);
+
+  Map *map = map_create(width, height);
 
   int b_fd, w_fd;
   pid_t b_pid, w_pid;
