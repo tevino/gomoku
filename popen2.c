@@ -3,8 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <util.h>
-
+#include <termios.h>
 
 pid_t popen2 (int *tty, char *cmd[]) {
   int master_fd;

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <ctype.h>
 #include <signal.h>
 #include "popen2.h"
