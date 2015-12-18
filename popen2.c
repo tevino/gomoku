@@ -7,20 +7,19 @@
 
 
 pid_t popen2 (int *tty, char *cmd[]) {
-
   int master_fd;
   char *slave_dev = NULL;
   pid_t pid;
   
-  /* openpty(&master_fd, &slave_fd, NULL, NULL, NULL); */
   if ((master_fd = posix_openpt(O_RDWR | O_NOCTTY)) < 0 ||
       grantpt(master_fd) != 0 ||
       unlockpt(master_fd) != 0 ||
       (slave_dev = ptsname(master_fd)) == NULL) return -1;
 
   int slave_fd = open(slave_dev, O_RDWR | O_NOCTTY);
+
   if (slave_fd == -1) return -1;
-  
+
   pid = fork();
   if (pid < 0) return pid;
 
@@ -48,8 +47,6 @@ pid_t popen2 (int *tty, char *cmd[]) {
     perror("execvp");
     exit(1);
   }
-
-
 
   if (tty == NULL){
     close(master_fd);
