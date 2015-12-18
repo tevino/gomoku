@@ -5,24 +5,15 @@
 #include <ctype.h>
 #include <signal.h>
 #include "popen2.h"
+#include "map.h"
 
 #define LINE_WIDTH 100
 #define MIN_WIDTH 5
 
-typedef enum {NOBODY=0, BLACK=1, WHITE=2} Winner;
 
 char *EMPTY_STR = ". ";
 char *BLACK_STR = "X ";
 char *WHITE_STR = "O ";
-
-
-int **init_map(int w, int h){
-  int **m = calloc(w, sizeof(int *));
-  for (int i = 0; i < w; i++) {
-    m[i] = calloc(h, sizeof(int));
-  }
-  return m;
-}
 
 
 int letter_no(char c){
@@ -52,18 +43,18 @@ int read_move(FILE *f, int *x, int *y){
 int width = 15;
 int height = 15;
 
-int next = BLACK;
+Player next = BLACK;
 
-int new_move(int **map, int x, int y, Winner *winner){
-  if (map[x][y] == NOBODY){
-    map[x][y] = next;
+int new_move(Map *map, int x, int y, Player *winner){
+  if (map_at(map, x, y) == NOBODY){
+    map_set(map, x, y, next);
     next = next==BLACK?WHITE:BLACK;
     return 0;
   }
   return -1;
 }
 
-void print_board(int **map){
+void print_board(Map *map){
   puts("");
   for (int y = -1; y < height; y++) {
     for (int x = -1; x < width; x++) {
@@ -85,7 +76,7 @@ void print_board(int **map){
 	continue;
       }
 
-      switch (map[x][y]){
+      switch (map_at(map, x, y)){
       case BLACK:
 	printf("%s", BLACK_STR); break;
       case WHITE:
@@ -125,7 +116,7 @@ int main (int argc, char *argv[]){
     }
   }
   
-  int **map = init_map(width, height);
+  Map *map = init_map(width, height);
 
   int b_fd, w_fd;
   pid_t b_pid, w_pid;
@@ -155,9 +146,9 @@ int main (int argc, char *argv[]){
   }
 
   int x, y;
-  Winner winner = NOBODY;
+  Player winner = NOTEXIST;
 
-  while (winner == NOBODY) {
+  while (winner == NOTEXIST) {
     puts("Waiting for black...");
     if (read_move(b_f, &x, &y) < 0){
       puts("Invalid output of black.");
@@ -208,5 +199,7 @@ int main (int argc, char *argv[]){
     puts("White win."); break;
   case NOBODY:
     puts("Draw."); break;
+  case NOTEXIST:  // This should not happen
+    puts("Winner not exist"); break;
   }
 }
