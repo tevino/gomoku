@@ -64,3 +64,12 @@ void map_free(Map *map){
   free(map->m);
   free(map);
 }
+
+int is_valid_size(int width, int height) {
+  if (width >= MIN_WIDTH && width < MAX_WIDTH &&
+      height >= MIN_WIDTH && height < MAX_HEIGHT){
+    return 1;
+  }
+  return 0;
+}
+

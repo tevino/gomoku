@@ -1,43 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../map.h"
-
-#define ERR(...) fprintf(stderr, __VA_ARGS__); return 1;
-
-#define MIN_WIDTH 5
-#define MAX_WIDTH 'Z'
-#define MAX_HEIGHT 100
-
-int is_valid_size(int width, int height) {
-  if (width >= MIN_WIDTH && width < MAX_WIDTH &&
-      height >= MIN_WIDTH && height < MAX_HEIGHT){
-    return 1;
-  }
-  return 0;
-}
-
-int read_move(int *x, int *y) {
-  char line[1024];
-  fgets(line, sizeof(line), stdin);
-
-  char x_c;
-  sscanf(line, "%c%d\n", &x_c, y);
-
-  *x = (int)(x_c - 'A');
-  return 0;
-}
-
-
 #include <time.h>
-int rand_int(int min, int max) {
-  if (max - min <= 0){
-    return -1;
-  }
-
-  return (rand() % max - min) + min;
-}
-
+#include "../map.h"
+#include "../utils.h"
 
 typedef struct Moves {
   int x;
@@ -128,10 +94,6 @@ int next_move(Map *map, int *x, int *y) {
   return 0;
 }
 
-void print_move(int x, int y) {
-  printf("%c%d\n", 'A' + x, y);
-}
-
 int main(int argc, char *argv[]){
   srand(time(NULL));
   if (argc != 3 && argc != 4) {
@@ -166,7 +128,7 @@ int main(int argc, char *argv[]){
   int x, y;
   while (1) {
     if (!first) {
-      read_move(&x, &y);
+      read_move(stdin, &x, &y);
       map_set(map, x, y, other);
       other_moves = moves_append(other_moves, x, y);
     }

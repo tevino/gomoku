@@ -7,6 +7,7 @@
 #include <signal.h>
 #include "popen2.h"
 #include "map.h"
+#include "utils.h"
 
 #define LINE_WIDTH 100
 #define MIN_WIDTH 5
@@ -23,22 +24,6 @@ int letter_no(char c){
     return c - (int)'A';
   }
   return -1;
-}
-
-int read_move(FILE *f, int *x, int *y){
-  char buf[LINE_WIDTH];
-  if (fgets(buf, sizeof(buf), f) == NULL){
-    return -1;
-  }
-
-  char xc;
-  if (sscanf(buf, "%c%d\n", &xc, y) != 2){
-    return -1;
-  };
-
-  *x = letter_no(xc);
-
-  return 0;
 }
 
 int width = 15;
