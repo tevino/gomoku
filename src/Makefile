@@ -1,5 +1,3 @@
-CC=cc
-
 all: bin board naughty-kid
 
 bin:
