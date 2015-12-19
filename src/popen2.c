@@ -9,7 +9,7 @@ pid_t popen2 (int *tty, char *cmd[]) {
   int master_fd;
   char *slave_dev = NULL;
   pid_t pid;
-  
+
   if ((master_fd = posix_openpt(O_RDWR | O_NOCTTY)) < 0 ||
       grantpt(master_fd) != 0 ||
       unlockpt(master_fd) != 0 ||
@@ -28,7 +28,7 @@ pid_t popen2 (int *tty, char *cmd[]) {
 
     struct termios slave_orig_term_settings; // Saved terminal settings
     struct termios new_term_settings; // Current terminal settings
-    
+
     // Save the default parameters of the slave side of the PTY
     tcgetattr(slave_fd, &slave_orig_term_settings);
 
@@ -40,7 +40,8 @@ pid_t popen2 (int *tty, char *cmd[]) {
     // The slave side of the PTY becomes the standard input and outputs of the child process
     dup2(slave_fd, 0);
     dup2(slave_fd, 1);
-    dup2(slave_fd, 2);
+    // ignore stderr
+    /* dup2(slave_fd, 2); */
 
     execvp(*cmd, cmd);
     perror("execvp");
