@@ -50,7 +50,7 @@ int updateBoard(Point p, int value, int **map) {
         return -1;
     }
     map[p.x][p.y] = value;
-    print_board(map);
+//    print_board(map);
     return 0;
 }
 
@@ -137,11 +137,11 @@ int main(int argc, char *argv[]) {
     while (finished == 0) {
         memset(getsBuffer, 0, 10*sizeof(char));
         if (fgets(getsBuffer, 10, stdin) > 0) {
-            printf("receive : %s\n", getsBuffer);
+//            printf("receive : %s\n", getsBuffer);
             Point p = {getsBuffer[0]-'A', getsBuffer[1]-48};
             pushNextStep(0, p, map);
         }
-        sleep(1);
+//        sleep(1);
     }
 
 	return 0;
