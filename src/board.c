@@ -9,10 +9,6 @@
 #include "map.h"
 #include "utils.h"
 
-#define LINE_WIDTH 100
-#define MIN_WIDTH 5
-
-
 char *EMPTY_STR = ". ";
 char *BLACK_STR = "X ";
 char *WHITE_STR = "O ";
@@ -31,7 +27,21 @@ int height = 15;
 
 Player next = BLACK;
 
-int new_move(Map *map, int x, int y, Player *winner){
+int check_winner(Map *map, Player *winner) {
+  *winner = map_find_winner(map);
+  if (*winner != NOTEXIST) {
+    return 1;
+  }
+
+  if ((*winner == NOTEXIST) && map_is_full(map)) {
+    // draw
+    return 1;
+  }
+
+  return 0;
+}
+
+int new_move(Map *map, int x, int y){
   if (map_at(map, x, y) == NOBODY){
     map_set(map, x, y, next);
     next = next==BLACK?WHITE:BLACK;
@@ -93,13 +103,8 @@ int main (int argc, char *argv[]){
   if (argc == 5) {
     width = atoi(argv[3]);
     height = atoi(argv[4]);
-    if (width < MIN_WIDTH){
-      fprintf(stderr, "Invalid width: %s", argv[3]);
-      return 1;
-    }
-
-    if (height < MIN_WIDTH) {
-      fprintf(stderr, "Invalid height: %s", argv[4]);
+    if (!is_valid_size(width, height)) {
+      fprintf(stderr, "Invalid size: %s x %s", argv[3], argv[4]);
       return 1;
     }
   }
@@ -141,6 +146,7 @@ int main (int argc, char *argv[]){
   Player winner = NOTEXIST;
 
   while (winner == NOTEXIST) {
+    // Black's round
     puts("Waiting for black...");
     if (read_move(b_f, &x, &y) < 0){
       puts("Invalid output of black.");
@@ -148,7 +154,7 @@ int main (int argc, char *argv[]){
       break;
     }
 
-    if (new_move(map, x, y, &winner) != 0){
+    if (new_move(map, x, y) != 0){
       printf("Invalid move of black: %c%d\n", 'A' + x, y);
       winner = WHITE;
       break;
@@ -157,9 +163,9 @@ int main (int argc, char *argv[]){
     fprintf(w_f, "%c%d\n", 'A' + x, y);
 
     print_board(map);
-    // TODO: winner?
+    if (check_winner(map, &winner)) break;
 
-
+    // White's round
     puts("Waiting for white...");
     if (read_move(w_f, &x, &y) < 0){
       puts("Invalid output of white.");
@@ -167,16 +173,16 @@ int main (int argc, char *argv[]){
       break;
     }
 
-    if (new_move(map, x, y, &winner) != 0) {
+    if (new_move(map, x, y) != 0) {
       printf("Invalid move of white: %c%d\n", 'A'+x, y);
       winner = BLACK;
       break;
     }
-    printf("White: %c%d\n", 'A' + x, y);    
+    printf("White: %c%d\n", 'A' + x, y);
     fprintf(b_f, "%c%d\n", 'A' + x, y);
 
     print_board(map);
-    // TODO: winner?
+    if (check_winner(map, &winner)) break;
   }
 
   map_free(map);
