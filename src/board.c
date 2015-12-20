@@ -9,7 +9,7 @@
 #include "map.h"
 #include "utils.h"
 
-char *EMPTY_STR = ". ";
+char *EMPTY_STR = "· ";
 char *BLACK_STR = "X ";
 char *WHITE_STR = "O ";
 
