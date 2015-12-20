@@ -42,8 +42,8 @@ int map_set(Map *map, int x, int y, Player p) {
 
 int map_center(Map *map, int *x, int *y) {
   if (map != NULL) {
-    *x = map->width / 2 + 1;
-    *y = map->height / 2 + 1;
+    *x = map->width / 2;
+    *y = map->height / 2;
     return 0;
   }
   return -1;
