@@ -2,13 +2,13 @@
 
 [![Build Status](https://travis-ci.org/tevino/gomoku.svg)](https://travis-ci.org/tevino/gomoku)
 
-## AI
+## Robots
 
 - Accept command-line arguments:
 
-`./AI board-width board-height [-first]`
+`./robot board-width board-height [-first]`
 
-The last `-first` is **optional**, which indicates if the AI is Black.
+The last `-first` is **optional**, which indicates if the robot is Black.
 The black should output a move right after its launch,
 otherwise it should read the opponent's move from `stdin`.
 

@@ -92,7 +92,7 @@ void print_board(Map *map){
 int main (int argc, char *argv[]){
   if (argc != 3 && argc != 5){
     puts("Usage:");
-    puts("      board black_cmd white_cmd [width] [height]");
+    puts("      board black_robot white_robot [width] [height]");
     puts("      Default size: 15x15");
     return 1;
   }
@@ -119,20 +119,20 @@ int main (int argc, char *argv[]){
   pid_t b_pid, w_pid;
   FILE *b_f, *w_f;
 
-  printf("launching black AI: %s\n", b_cmd);
+  printf("launching black Robot: %s\n", b_cmd);
 
   b_pid = popen2(&b_fd, (char *[]){b_cmd, width_s, height_s, "-first", NULL});
 
   if (b_pid < 0){
-    fprintf(stderr, "Black[%s] AI failed.\n", b_cmd);
+    fprintf(stderr, "Black[%s] robot failed.\n", b_cmd);
     return 1;
   }
   b_f = fdopen(b_fd, "w+");
 
-  printf("launching white AI: %s\n", w_cmd);
+  printf("launching white robot: %s\n", w_cmd);
   w_pid = popen2(&w_fd, (char *[]){w_cmd, width_s, height_s, NULL});
   if (w_pid < 0){
-    fprintf(stderr, "White[%s] AI failed.\n", w_cmd);
+    fprintf(stderr, "White[%s] robot failed.\n", w_cmd);
     return 1;
   }
   w_f = fdopen(w_fd, "w+");
