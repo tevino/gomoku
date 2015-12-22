@@ -27,3 +27,8 @@ e.g. `A0` means the upper left point on the board.
 
 - **Do not output anything other than your moves to `stdin` or your opponent will win.**
 - `stderr` is not used, you can print debugging information whenever you like to it.
+
+### API for building AI
+
+- [map.h](https://github.com/tevino/gomoku/blob/master/src/map.h)
+- [utils.h](https://github.com/tevino/gomoku/blob/master/src/utils.h)
